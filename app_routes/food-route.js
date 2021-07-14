@@ -14,10 +14,13 @@ const upload = multer({ storage: storage });
 const uploadedfilesPath = path.join(__dirname, "../", "uploadedFiles");
 
 
-//
+//posting food route: /food/upload
 router.post("/", upload.single("food-image"),async (req, res) => {
+    //file name of the new compressed image file 
     const compressedImageFileName = "food-image_" + Date.now().toString() + ".jpeg";
+    //path of the new uploaded compressed image file
     const compressedFilePath = path.join(__dirname, "../" , "public", "uploads", "images", "foods", compressedImageFileName);
+    //resizer
     sharp(req.file.path).resize(820,450).jpeg({ quality: 80, chromaSubsampling: "4:4:4" }).toFile(compressedFilePath,(error,info)=>{
       if (error) {
         res.json({message: "cannot resize image because: " + error.message});
@@ -30,6 +33,7 @@ router.post("/", upload.single("food-image"),async (req, res) => {
         });
       }
     });
+    //
     const body = req.body;
     console.log('inserting to Db image: ' + compressedImageFileName);
     createFood(body, compressedImageFileName, (error, results) => {
@@ -43,6 +47,13 @@ router.post("/", upload.single("food-image"),async (req, res) => {
       }
     });
 });
+
+//getting food-image route:  /food/upload/images/{name of the image}
+router.get("/images/:food_image_name",(req,res)=>{
+    const imagesPath = path.join(__dirname, "../" , "public", "uploads", "images", "foods/")
+    res.download(imagesPath + req.params.food_image_name);
+})
+
 
 module.exports = router;
 
