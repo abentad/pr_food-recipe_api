@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const {addSteps,getAllSteps} =require('../controllers/steps-controller');
+const {addSteps,getAllStepsById} =require('../controllers/steps-controller');
 
 
 //Routes ----------------------------------------------------------------------
@@ -7,7 +7,7 @@ const {addSteps,getAllSteps} =require('../controllers/steps-controller');
 //for adding a step for a food by its foodId
 router.post("/add",addSteps);
 //for getting steps for a food by its foodId
-router.get("/:id",getAllSteps);
+router.get("/:id",getAllStepsById);
 // -----------------------------------------------------------------------------
 
 module.exports = router;

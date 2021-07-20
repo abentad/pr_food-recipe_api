@@ -13,7 +13,7 @@ module.exports = {
           }
         })
     },
-    getAllSteps: (req,res)=>{
+    getAllStepsById: (req,res)=>{
       const id = req.params.id;
         recieveAllSteps(id,(error,results)=>{
             if(error){

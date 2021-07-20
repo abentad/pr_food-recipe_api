@@ -4,20 +4,17 @@ const stepsTable = "steps";
 
 module.exports = {
     createSteps: (data, callback) =>{
-        console.log(data.length);
-        console.log(data);
-        // const items = [];
-        // console.log(data[1]);
-
-        // for(var i = 0;i<data.length;i++){
-        //   items.push(JSON.parse(data[i]));
-        // }
-        //TODO: work with the multiple steps inserting
+        const steps = [];
+        try {
+          JSON.parse(JSON.stringify(data)).forEach((step)=> steps.push(step));
+        } catch (error) {
+          console.log(`cannot parse because: ${error.message}`);
+        }
+        console.log(`found ${steps.length} steps`);
+        console.log(steps.map(step=>`${step.stepName},${step.stepDescription},${step.stepCookTime},${step.foodId}`));
         pool.query(
-            // `insert into ${stepsTable}(stepName, stepDescription, stepCookTime) values(?,?,?) where foodId=?`,
-            `INSERT INTO ${stepsTable}(stepName, stepDescription, stepCookTime, foodId) VALUES (?,?,?,?)`,
-            // [data.stepName,data.stepDescription,data.stepCookTime,data.foodId],
-            [data.map(item=> [item.stepName,item.stepDescription,item.stepCookTime,item.foodId])],
+            `INSERT INTO ${stepsTable}(stepName, stepDescription, stepCookTime, foodId) VALUES ?`,
+            [steps.map(step => [step.stepName, step.stepDescription, step.stepCookTime,step.foodId])],
             (error, results, fields) => {
               if (error) {
                 callback(error);
@@ -43,15 +40,3 @@ module.exports = {
 
 
 }
-
-
-// const items = [
-//   {name: 'alpha', description: 'describes alpha', value: 1},
-//   ...
-// ];
-
-// db.query(
-//   'INSERT INTO my_table (name, description, value) VALUES ?',
-//   [items.map(item => [item.name, item.description, item.value])],
-//   (error, results) => {...}
-// );
