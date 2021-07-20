@@ -1,0 +1,12 @@
+###
+POST http://localhost:3000/food/steps/add HTTP/1.1
+Content-Type: application/json
+
+[
+    {
+        "stepName": "add tomatoe",
+        "stepDescription": "add some tomatoe inside the bread",
+        "stepCookTime": "1",
+        "foodId": 12
+    }
+]

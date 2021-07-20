@@ -14,15 +14,29 @@ module.exports = {
         // }
         //TODO: work with the multiple steps inserting
         pool.query(
-            `insert into ${stepsTable}(stepName, stepDescription, stepCookTime, foodId) values(?,?,?,?)`,
-            // [data.stepName, data.stepDescription,data.stepCookTime,data.food_id],
-            [data.map(item=> [item.stepName, item.stepDescription,item.stepCookTime,item.foodId])],
+            // `insert into ${stepsTable}(stepName, stepDescription, stepCookTime) values(?,?,?) where foodId=?`,
+            `INSERT INTO ${stepsTable}(stepName, stepDescription, stepCookTime, foodId) VALUES (?,?,?,?)`,
+            // [data.stepName,data.stepDescription,data.stepCookTime,data.foodId],
+            [data.map(item=> [item.stepName,item.stepDescription,item.stepCookTime,item.foodId])],
             (error, results, fields) => {
               if (error) {
                 callback(error);
               } else {
                 callback(null, results);
               }
+            }
+        );
+    },
+    recieveAllSteps: (id,callback)=>{
+        pool.query(
+            `select * from ${stepsTable} where foodId = ?`,
+            [id],
+            (error, results, fields) => {
+                if (error) {
+                  callback(error);
+                } else {
+                  callback(null, results);
+                }
             }
         );
     }

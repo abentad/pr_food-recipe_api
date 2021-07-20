@@ -1,4 +1,4 @@
-const {createSteps} = require('../services/steps-service');
+const {createSteps,recieveAllSteps} = require('../services/steps-service');
 
 module.exports = {
     addSteps: (req,res)=>{
@@ -13,4 +13,16 @@ module.exports = {
           }
         })
     },
+    getAllSteps: (req,res)=>{
+      const id = req.params.id;
+        recieveAllSteps(id,(error,results)=>{
+            if(error){
+                console.log(error.message);
+                res.json({message: `failed to get all steps because: ${error.message}`});
+              }else{
+                console.log("got all steps");
+                res.json({results});
+            }
+        })
+    }
 }

@@ -12,6 +12,7 @@ const upload = multer({ storage: storage });
 const uploadedfilesPath = path.join(__dirname, "../", "uploadedFiles");
 //---------------------------------------------------------------------------------
 
+//ROUTES --------------------------------------------------------------------------------------
 //
 //for getting foodImage ------------------------------------------------------------------
 //getting food-image route:  /food/upload/images/{name of the image}
@@ -20,7 +21,6 @@ router.get("/images/:food_image_name",(req,res)=>{
   res.download(imagesPath + req.params.food_image_name);
 })
 //-----------------------------------------------------------------------------------------
-
 //for getting all foods 
 router.get("/",getAllFoods);
 //for getting a food by its foodId
@@ -29,6 +29,8 @@ router.get("/byid/:id",getFoodById);
 router.post("/upload", upload.single("foodImage"),addFood);
 //for deleting food 
 router.delete("/remove/:id",removeFood);
+
+//-----------------------------------------------------------------------------------------
 
 
 
