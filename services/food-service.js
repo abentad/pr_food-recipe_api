@@ -5,8 +5,8 @@ const foodTable = "foods";
 module.exports = {
     createFood: (data, foodImageName, callback)=>{
         pool.query(
-            `insert into ${foodTable}(foodName, foodImage, foodNameAm) values(?,?,?)`,
-            [data.foodName, foodImageName, data.foodNameAm],
+            `insert into ${foodTable}(foodName, foodImage, foodNameAm, foodDescription, foodDescriptionAm) values(?,?,?,?,?)`,
+            [data.foodName, foodImageName, data.foodNameAm, data.foodDescription, data.foodDescriptionAm],
             (error, results, fields) => {
               if (error) {
                 callback(error);
