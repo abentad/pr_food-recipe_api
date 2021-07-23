@@ -1,8 +1,10 @@
 const router = require("express").Router();
-const {addIngredients} =require('../controllers/ingredient-controller');
+const {addIngredients, getIngredientsByFoodId} =require('../controllers/ingredient-controller');
 
 
 //
-router.post("/",addIngredients);
+router.post("/add",addIngredients);
+//
+router.get("/:id",getIngredientsByFoodId);
 
 module.exports = router;

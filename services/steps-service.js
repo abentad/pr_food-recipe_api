@@ -13,8 +13,8 @@ module.exports = {
         console.log(`found ${steps.length} steps`);
         console.log(steps.map(step=>`${step.stepName},${step.stepDescription},${step.stepCookTime},${step.foodId}`));
         pool.query(
-            `INSERT INTO ${stepsTable}(stepName, stepDescription, stepCookTime, foodId) VALUES ?`,
-            [steps.map(step => [step.stepName, step.stepDescription, step.stepCookTime,step.foodId])],
+            `INSERT INTO ${stepsTable}(stepName, stepDescription, stepCookTime, stepNameAm, stepDescriptionAm, foodId) VALUES ?`,
+            [steps.map(step => [step.stepName, step.stepDescription, step.stepCookTime, step.stepNameAm, step.stepDescriptionAm, step.foodId])],
             (error, results, fields) => {
               if (error) {
                 callback(error);

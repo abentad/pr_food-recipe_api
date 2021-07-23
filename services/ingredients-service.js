@@ -5,18 +5,37 @@ const ingredientsTable = "ingredients";
 
 module.exports = {
     createIngredients: (data,callback)=>{
-        pool.query(
-            `insert into ${ingredientsTable}(ingredientName, ingredientImage, foodId) values(?,?,?)`,
-            // [data.stepName, data.stepDescription,data.stepCookTime,data.food_id],
-            // [data.map(item=> [item.stepName, item.stepDescription,item.stepCookTime,item.foodId])],
-            [data.ingredientName, data.ingredientImage,data.foodId],
-            (error, results, fields) => {
+      const ingredients = [];
+      try {
+        JSON.parse(JSON.stringify(data)).forEach((ingredient)=> ingredients.push(ingredient));
+      } catch (error) {
+        console.log(`cannot parse because: ${error.message}`);
+      }
+      console.log(`found ${ingredients.length} ingredients`);
+      console.log(ingredients.map(ingredient=>`${ingredient.ingredientName},${ingredient.ingredientNameAm},${ingredient.foodId}`));
+      pool.query(
+          `INSERT INTO ${ingredientsTable}(ingredientName, ingredientNameAm, foodId) VALUES ?`,
+          [ingredients.map(ingredient => [ingredient.ingredientName, ingredient.ingredientNameAm, ingredient.foodId])],
+          (error, results, fields) => {
+            if (error) {
+              callback(error);
+            } else {
+              callback(null, results);
+            }
+          }
+      );
+    },
+    recieveAllIngredientsById: (id,callback)=>{
+      pool.query(
+          `select * from ${ingredientsTable} where foodId = ?`,
+          [id],
+          (error, results, fields) => {
               if (error) {
                 callback(error);
               } else {
                 callback(null, results);
               }
-            }
-        );
-    },
+          }
+      );
+  }
 }

@@ -1,4 +1,4 @@
-const {createIngredients} = require('../services/ingredients-service');
+const {createIngredients, recieveAllIngredientsById} = require('../services/ingredients-service');
 
 module.exports = {
     addIngredients: (req,res)=>{
@@ -13,4 +13,16 @@ module.exports = {
           }
         })
     },
+    getIngredientsByFoodId: (req,res)=>{
+      const id = req.params.id;
+      recieveAllIngredientsById(id,(error,results)=>{
+          if(error){
+              console.log(error.message);
+              res.json({message: `failed to get all ingredients because: ${error.message}`});
+            }else{
+              console.log("got all ingredients");
+              res.json({results});
+          }
+      })
+    }
 }
